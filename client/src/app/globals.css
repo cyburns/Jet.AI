@@ -15,15 +15,10 @@ html {
   align-items: center;
 }
 
-h1 {
-  font-size: x-large;
-  margin-bottom: 1rem;
-}
 
 table {
   width: 100%;
   border: 1px solid black;
-  padding: 1rem;
 }
 
 tr,
@@ -35,10 +30,4 @@ th {
 
 thead {
   background-color: rgb(209, 209, 209);
-}
-
-select {
-  background-color: #1b77f3;
-  border-radius: 0.5rem;
-  color: white;
 }

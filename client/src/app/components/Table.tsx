@@ -3,6 +3,7 @@
 import { useState } from "react";
 import TableRow from "./TableRow";
 import { ArrowUpward, ArrowDownward } from "@mui/icons-material";
+import AiCompare from "./AiCompare";
 
 interface JetData {
   id: string;
@@ -37,15 +38,15 @@ export default function Table({ jetData }: Props) {
   };
 
   return (
-    <div className="w-full mx-auto">
+    <div>
       <div className="z-10 max-w-5xl w-full font-mono text-sm lg:flex ont-bold">
-        <h1 className="fixed left-0 top-0  border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl bg-white lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 text-black text-5xl ont-bold">
+        <h1 className="fixed left-0 top-0   pb-6 pt-8 backdrop-blur-2xl bg-white lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 text-black text-3xl ont-bold mb-10 border border-black">
           Top 10 Charter Jets
         </h1>
       </div>
       {/* TABLE */}
       <div className="flex items-center justify-center">
-        <table className="min-w-full divide-y divide-gray-200 h-screen">
+        <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-200 text-black rounded-xl f">
             <tr className="m-10 h-10 border border-black">
               <th scope="col border border-black">Select</th>
@@ -64,26 +65,21 @@ export default function Table({ jetData }: Props) {
             {sortedJetData.map((jet, i) => (
               <TableRow
                 key={i}
-                id={+jet.id}
+                _id={jet.id}
                 name={jet.name}
                 engines={jet.engines}
                 wingspan={jet.windspan}
                 year={jet.year}
                 onCheckboxChange={handleCheckboxChange}
+                isChecked={selectedJets.includes(jet.id)}
               />
             ))}
           </tbody>
         </table>
       </div>
       {/* AI comp */}
-      <div className="mt-10 flex">
-        <h3>Ask OpenAI to Compare Selected Jets By</h3>
-        <select className="border bg-black">
-          <option value="">Select Attribute</option>
-          <option value="topSpeed">Top Speed</option>
-          <option value="fuelEfficiency">Fuel Efficiency</option>
-          <option value="maximumSeats">Maximum Seats</option>
-        </select>
+      <div className="mt-10 compare flex mb-96">
+        <AiCompare />
       </div>
     </div>
   );

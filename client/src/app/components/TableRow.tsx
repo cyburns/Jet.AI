@@ -1,15 +1,15 @@
 interface Props {
-  id: number;
+  _id: string;
   name: string;
   engines: number;
   wingspan: number;
   year: number;
   isChecked: boolean;
-  onCheckboxChange: (id: number) => void;
+  onCheckboxChange: (id: string) => void;
 }
 
 export default function TableRow({
-  id,
+  _id,
   name,
   engines,
   wingspan,
@@ -18,12 +18,12 @@ export default function TableRow({
   onCheckboxChange,
 }: Props) {
   return (
-    <tr key={id} className="border border-black text-center ">
-      <td className="text-black border border-black items-center just">
+    <tr key={_id} className="border border-black text-center ">
+      <td>
         <input
           type="checkbox"
           checked={isChecked}
-          onChange={() => onCheckboxChange(id)}
+          onChange={() => onCheckboxChange(_id)}
         />
       </td>
       <td>{name}</td>
