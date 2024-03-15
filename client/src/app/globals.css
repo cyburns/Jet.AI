@@ -36,3 +36,9 @@ th {
 thead {
   background-color: rgb(209, 209, 209);
 }
+
+select {
+  background-color: #1b77f3;
+  border-radius: 0.5rem;
+  color: white;
+}

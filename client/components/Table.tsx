@@ -18,6 +18,7 @@ interface Props {
 
 export default function Table({ jetData }: Props) {
   const [isSortWingspanUp, setSortWingspanUp] = useState(false);
+  const [selectedJets, setSelectedJets] = useState<string[]>([]);
 
   const sortedJetData = jetData.sort((a, b) => {
     if (isSortWingspanUp) {
@@ -26,6 +27,14 @@ export default function Table({ jetData }: Props) {
       return b.windspan - a.windspan;
     }
   });
+
+  const handleCheckboxChange = (id: string) => {
+    if (selectedJets.includes(id)) {
+      setSelectedJets(selectedJets.filter((jetId) => jetId !== id));
+    } else {
+      setSelectedJets([...selectedJets, id]);
+    }
+  };
 
   return (
     <div className="w-full mx-auto">
@@ -60,15 +69,21 @@ export default function Table({ jetData }: Props) {
                 engines={jet.engines}
                 wingspan={jet.windspan}
                 year={jet.year}
+                onCheckboxChange={handleCheckboxChange}
               />
             ))}
           </tbody>
         </table>
       </div>
       {/* AI comp */}
-      <div className="mt-10">
-        <h3 className="">Ask OpenAI to Compare Selected Jets By</h3>
-        <menu></menu>
+      <div className="mt-10 flex">
+        <h3>Ask OpenAI to Compare Selected Jets By</h3>
+        <select className="border bg-black">
+          <option value="">Select Attribute</option>
+          <option value="topSpeed">Top Speed</option>
+          <option value="fuelEfficiency">Fuel Efficiency</option>
+          <option value="maximumSeats">Maximum Seats</option>
+        </select>
       </div>
     </div>
   );
