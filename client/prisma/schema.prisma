@@ -14,10 +14,10 @@ datasource db {
 }
 
 
-model JetTable {
-  id String @id @default(uuid())
-  name String
-  windspan Float
-  engines Int
-  year Int
+model Jet {
+  id       String  @id @default(uuid())
+  name     String
+  wingspan Float
+  engines  Int
+  year     Int
 }

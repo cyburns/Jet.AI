@@ -4,8 +4,8 @@ interface Props {
   engines: number;
   wingspan: number;
   year: number;
-  isChecked: boolean;
   onCheckboxChange: (id: string) => void;
+  isChecked: boolean;
 }
 
 export default function TableRow({
@@ -14,11 +14,11 @@ export default function TableRow({
   engines,
   wingspan,
   year,
-  isChecked,
   onCheckboxChange,
+  isChecked,
 }: Props) {
   return (
-    <tr key={_id} className="border border-black text-center ">
+    <tr key={_id} className={isChecked ? 'bg-gray-200': 'bg-white'}>
       <td>
         <input
           type="checkbox"

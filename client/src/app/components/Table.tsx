@@ -8,7 +8,7 @@ import AiCompare from "./AiCompare";
 interface JetData {
   id: string;
   name: string;
-  windspan: number;
+  wingspan: number;
   engines: number;
   year: number;
 }
@@ -23,9 +23,9 @@ export default function Table({ jetData }: Props) {
 
   const sortedJetData = jetData.sort((a, b) => {
     if (isSortWingspanUp) {
-      return a.windspan - b.windspan;
+      return a.wingspan - b.wingspan;
     } else {
-      return b.windspan - a.windspan;
+      return b.wingspan - a.wingspan;
     }
   });
 
@@ -35,24 +35,26 @@ export default function Table({ jetData }: Props) {
     } else {
       setSelectedJets([...selectedJets, id]);
     }
+
+    console.log(selectedJets);
   };
 
   return (
     <div>
       <div className="z-10 max-w-5xl w-full font-mono text-sm lg:flex ont-bold">
-        <h1 className="fixed left-0 top-0   pb-6 pt-8 backdrop-blur-2xl bg-white lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 text-black text-3xl ont-bold mb-10 border border-black">
+        <h1 className="fixed left-0 top-0   pb-6 pt-8 backdrop-blur-2xl bg-gray-600 lg:static lg:w-auto  lg:rounded-xl lg:border lg:p-4 text-white text-3xl ont-bold mb-10 border border-black">
           Top 10 Charter Jets
         </h1>
       </div>
       {/* TABLE */}
       <div className="flex items-center justify-center">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-200 text-black rounded-xl f">
-            <tr className="m-10 h-10 border border-black">
+        <table className="min-w-full">
+          <thead className="bg-gray-600 text-black rounded-xl f">
+            <tr className="m-10 h-10 border border-black text-white">
               <th scope="col border border-black">Select</th>
               <th scope="col">Name</th>
               <th scope="col">
-                Wingspan (ft)
+                Wingspan (ft.)
                 <span onClick={() => setSortWingspanUp(!isSortWingspanUp)}>
                   {isSortWingspanUp ? <ArrowUpward /> : <ArrowDownward />}
                 </span>
@@ -68,7 +70,7 @@ export default function Table({ jetData }: Props) {
                 _id={jet.id}
                 name={jet.name}
                 engines={jet.engines}
-                wingspan={jet.windspan}
+                wingspan={jet.wingspan}
                 year={jet.year}
                 onCheckboxChange={handleCheckboxChange}
                 isChecked={selectedJets.includes(jet.id)}
