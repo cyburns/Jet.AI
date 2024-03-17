@@ -44,3 +44,39 @@ npm run dev
 
 - Testing and documentation are prioritized to ensure functionality across different browsers, with comprehensive setup instructions and project overview provided in the README.md file.
 
+
+Jet.AI repo
+├── client
+│   ├── .next
+│   ├── assets
+│   │   ├── jet-ai-read-me.png
+│   ├── node_modules
+│   ├── pages
+│   │   ├── compareJets.ts
+│   │   ├── jetQuery.ts
+│   │   ├── prismaClient.ts
+│   ├── prisma
+│   │   ├── data
+│   │   │   ├── jet_facts.csv
+│   │   ├── migrations
+│   │   │   ├── ...
+│   │   ├── dev.db
+│   │   ├── schema.prisma
+│   │   ├── seed.js
+│   │   ├── public
+│   │   │   ├── ...
+│   ├── public
+│   ├── src
+│   │   ├── app
+│   │   │   ├── components
+│   │   │   │   ├── AiCompare.tsx
+│   │   │   │   ├── Table.tsx
+│   │   │   │   ├── TableRow.tsx
+│   ├── .env
+│   ├── .gitignore, package.json, tsconfig.ts, etc...
+│   └── ...
+│
+├── README.md
+│
+└── ...
+
