@@ -1,5 +1,7 @@
 "use client";
+
 import React, { useState } from "react";
+import CircularProgress from "@mui/material/CircularProgress";
 
 interface Props {
   selectedJetNames: string[];
@@ -7,13 +9,18 @@ interface Props {
 
 const AiCompare = ({ selectedJetNames }: Props) => {
   const [selectedAttribute, setSelectedAttribute] = useState("");
-  const [comparisonResults, setComparisonResults] = useState([] as any);
+  const [comparisonResults, setComparisonResults] = useState([] as string[]);
+  const [isLoading, setIsLoading] = useState(false);
+  const isComparisonDisabled =
+    selectedAttribute === "" || selectedJetNames.length < 2;
+  const [isErrorWhileFetching, setIsErrorWhileLoading] = useState(false);
 
   const handleAttributeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedAttribute(e.target.value);
   };
 
   const handleComparison = async () => {
+    setIsLoading(true);
     const prompt = `Return a number rank of these jets: ${selectedJetNames.join()} by their ${selectedAttribute} and an attribute value.`;
 
     try {
@@ -27,9 +34,7 @@ const AiCompare = ({ selectedJetNames }: Props) => {
         }),
       });
 
-
       const { name } = await response.json();
-      console.log(name);
 
       const jetNames = name.split("\n").map((item: string) => {
         const [rank, jetName, value] = item.split(". ");
@@ -37,7 +42,10 @@ const AiCompare = ({ selectedJetNames }: Props) => {
       });
       setComparisonResults(jetNames);
     } catch (error) {
+      setIsErrorWhileLoading(true);
       console.error("OpenAI API Error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -46,7 +54,7 @@ const AiCompare = ({ selectedJetNames }: Props) => {
       <div className="flex items-center flex-row font-semi text-lg">
         <h3>Ask OpenAI to Compare Selected Jets By</h3>
         <select
-          className="border transition bg-black mx-2 py-2 px-3 text-white rounded-lg hover:bg-gray-700"
+          className="border transition bg-black mx-2 h-11 px-3 text-white rounded-lg hover:bg-gray-700 hover:cursor-pointer"
           value={selectedAttribute}
           onChange={(e) => handleAttributeChange(e)}
         >
@@ -56,11 +64,29 @@ const AiCompare = ({ selectedJetNames }: Props) => {
           <option value="seats">Maximum Seats</option>
         </select>
         <button
-          className="bg-[#1b77f3] transition py-2 px-8 rounded-lg text-white hover:bg-[#5296f2]"
+          className={`bg-[#1b77f3] transition w-56 h-11 rounded-lg text-white ${
+            isComparisonDisabled
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:bg-[#5296f2] hover:cursor-pointer"
+          }`}
           onClick={handleComparison}
+          disabled={isComparisonDisabled}
         >
-          Compare Selected Jets
+          {isLoading ? (
+            <CircularProgress sx={{ color: "black", padding: "10px" }} />
+          ) : (
+            "Compare Selected Jets"
+          )}
         </button>
+      </div>
+      <div
+        className={`flex items-center justify-center mt-5 ${
+          isErrorWhileFetching ? "visible" : "invisible"
+        }`}
+      >
+        <h1 className="text-red-500">
+          Error fetching comparison data. Please try again.
+        </h1>
       </div>
       <div className="text-3xl mt-10">
         <h3>Comparison Results:</h3>
