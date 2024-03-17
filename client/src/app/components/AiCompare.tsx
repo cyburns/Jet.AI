@@ -26,13 +26,15 @@ const AiCompare = ({ selectedJetNames }: Props) => {
           prompt: prompt,
         }),
       });
+
+
       const { name } = await response.json();
+      console.log(name);
 
       const jetNames = name.split("\n").map((item: string) => {
-        const [rank, jetName] = item.split(". ");
-        return { rank: parseInt(rank), name: jetName };
+        const [rank, jetName, value] = item.split(". ");
+        return { rank: parseInt(rank), name: jetName, value: value };
       });
-
       setComparisonResults(jetNames);
     } catch (error) {
       console.error("OpenAI API Error:", error);
@@ -78,7 +80,7 @@ const AiCompare = ({ selectedJetNames }: Props) => {
               <tr className="bg-white" key={result.rank}>
                 <td>{result.rank}</td>
                 <td>{result.name}</td>
-                <td>Value Placeholder</td>
+                <td>{selectedAttribute}</td>
               </tr>
             ))}
           </tbody>
