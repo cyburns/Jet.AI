@@ -15,7 +15,7 @@ export default async function compareJetsWithAI(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  console.log("Request Body:", req.body);
+
   const { prompt } = req.body;
 
   if (!prompt || prompt === "") {
