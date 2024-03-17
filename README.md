@@ -45,6 +45,6 @@ npm run dev
 
 
  <p align="center">
-  <img width="1000" src="./client/assets/fs-ss.png">
+  <img width="1000" src="./client/assets/fs-ss-2.png">
 </p>
 
