@@ -1,20 +1,91 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 
-const AiCompate = () => {
+interface Props {
+  selectedJetNames: string[];
+}
+
+const AiCompare = ({ selectedJetNames }: Props) => {
+  const [selectedAttribute, setSelectedAttribute] = useState("");
+  const [comparisonResults, setComparisonResults] = useState([] as any);
+
+  const handleAttributeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedAttribute(e.target.value);
+  };
+
+  const handleComparison = async () => {
+    const prompt = `Return a number rank of these jets: ${selectedJetNames.join()} by their ${selectedAttribute} and an attribute value.`;
+
+    try {
+      const response = await fetch("/api/compareJets", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: prompt,
+        }),
+      });
+      const { name } = await response.json();
+
+      const jetNames = name.split("\n").map((item: string) => {
+        const [rank, jetName] = item.split(". ");
+        return { rank: parseInt(rank), name: jetName };
+      });
+
+      setComparisonResults(jetNames);
+    } catch (error) {
+      console.error("OpenAI API Error:", error);
+    }
+  };
+
   return (
-    <div className="flex items-center flex-row font-semi text-lg ">
-      <h3>Ask OpenAI to Compare Selected Jets By</h3>
-      <select className="border bg-black mx-2 py-2 px-3 text-white rounded-lg">
-        <option value="">Select Attribute</option>
-        <option value="topSpeed">Top Speed</option>
-        <option value="fuelEfficiency">Fuel Efficiency</option>
-        <option value="maximumSeats">Maximum Seats</option>
-      </select>
-      <button className="bg-[#1b77f3] py-2 px-5 rounded-lg text-white">
-        Compare
-      </button>
+    <div>
+      <div className="flex items-center flex-row font-semi text-lg">
+        <h3>Ask OpenAI to Compare Selected Jets By</h3>
+        <select
+          className="border transition bg-black mx-2 py-2 px-3 text-white rounded-lg hover:bg-gray-700"
+          value={selectedAttribute}
+          onChange={(e) => handleAttributeChange(e)}
+        >
+          <option value="">Select Attribute</option>
+          <option value="speed">Top Speed</option>
+          <option value="fuel">Fuel Efficiency</option>
+          <option value="seats">Maximum Seats</option>
+        </select>
+        <button
+          className="bg-[#1b77f3] transition py-2 px-8 rounded-lg text-white hover:bg-[#5296f2]"
+          onClick={handleComparison}
+        >
+          Compare Selected Jets
+        </button>
+      </div>
+      <div className="text-3xl mt-10">
+        <h3>Comparison Results:</h3>
+      </div>
+
+      <div className="flex items-center justify-center mt-5">
+        <table className="min-w-full">
+          <thead className="bg-gray-600 text-black rounded-xl f">
+            <tr className="m-10 h-10 border border-black text-white">
+              <th scope="col">Rank</th>
+              <th scope="col">Name</th>
+              <th scope="col">Value</th>
+            </tr>
+          </thead>
+          <tbody className="border-b border-neutral-200">
+            {comparisonResults.map((result: any) => (
+              <tr className="bg-white" key={result.rank}>
+                <td>{result.rank}</td>
+                <td>{result.name}</td>
+                <td>Value Placeholder</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
 
-export default AiCompate;
+export default AiCompare;

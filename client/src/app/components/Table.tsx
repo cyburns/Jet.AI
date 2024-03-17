@@ -20,6 +20,7 @@ interface Props {
 export default function Table({ jetData }: Props) {
   const [isSortWingspanUp, setSortWingspanUp] = useState(false);
   const [selectedJets, setSelectedJets] = useState<string[]>([]);
+  const [selectedJetNames, setSelectedJetNames] = useState<string[]>([]);
 
   const sortedJetData = jetData.sort((a, b) => {
     if (isSortWingspanUp) {
@@ -29,14 +30,16 @@ export default function Table({ jetData }: Props) {
     }
   });
 
-  const handleCheckboxChange = (id: string) => {
+  const handleCheckboxChange = (id: string, name: string) => {
     if (selectedJets.includes(id)) {
       setSelectedJets(selectedJets.filter((jetId) => jetId !== id));
+      setSelectedJetNames(
+        selectedJetNames.filter((jetName) => jetName !== name)
+      );
     } else {
       setSelectedJets([...selectedJets, id]);
+      setSelectedJetNames([...selectedJetNames, name]);
     }
-
-    console.log(selectedJets);
   };
 
   return (
@@ -79,9 +82,11 @@ export default function Table({ jetData }: Props) {
           </tbody>
         </table>
       </div>
-      {/* AI comp */}
-      <div className="mt-10 compare flex mb-96">
-        <AiCompare />
+      {/* AI compare */}
+      <div className="mt-10 mb-96 w-full">
+        <AiCompare
+          selectedJetNames={selectedJetNames}
+        />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import Table from "./components/Table";
-import { getAllJets } from "../../utils/jetQuery";
+import { getAllJets } from "../../pages/api/jetQuery";
 
 export default async function Home() {
   const jetData = (await getAllJets()) || [];

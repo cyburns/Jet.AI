@@ -7,8 +7,6 @@ const prisma = new PrismaClient();
 async function main() {
   const jets = [];
 
-  console.log(`Current working directory: ${process.cwd()}`);
-
   fs.createReadStream("./prisma/data/jet_facts.csv")
     .pipe(csv())
     .on("data", (row) => {
@@ -25,7 +23,6 @@ async function main() {
           data: jet,
         });
       }
-      console.log("CSV file successfully processed");
     });
 }
 
