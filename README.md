@@ -48,6 +48,3 @@ npm run dev
   <img width="1000" src="./client/assets/fs-ss.png">
 </p>
 
-- ├── .gitignore, package.json, tsconfig.ts, etc...
--└── ...
-
