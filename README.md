@@ -16,7 +16,7 @@ cd client
 npm install
 ```
 
-- Next seed the SQLite database with the this command:
+- Next seed the SQLite database with this command:
 
 ```bash
 npm run prisma:seed
